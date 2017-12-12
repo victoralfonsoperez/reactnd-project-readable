@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 import uuidv1 from 'uuid/v1' // eslint-disable-line no-unused-vars
 import * as Api from './Api' // eslint-disable-line no-unused-vars
-import Post from './Post'
 import CategorySelector from './CategorySelector'
 import ListPosts from './ListPosts'
 import { Route } from 'react-router-dom' // eslint-disable-line no-unused-vars
@@ -80,8 +79,6 @@ class App extends Component {
 			this.setState({ posts })
     })
     
-    
-
     //editPost requires the post id and the edit data, 
     /* Api.editPost('2aabe9c0-ddb8-11e7-ae7f-b92c97863714', editData).then((newpost) => {
       //console.log({ newpost })
@@ -123,9 +120,6 @@ class App extends Component {
   }
 
   render() {
-    let posts = this.state.posts
-    let category = this.state.category
-    let comments = this.state.comments
     let categories = this.state.categories
 
     return (
@@ -162,24 +156,6 @@ class App extends Component {
 
         <h3>POST</h3>
         <Post post={this.state.post}/> */}
-
-        <h3>COMMENTS</h3>
-        <ul>
-          {
-              comments.map((comment) => (
-                <li key={comment.id}>
-                <span>BODY: {comment.body}</span><br></br>
-                <span>AUTHOR: {comment.author}</span><br></br>
-                <span>DELETED: {comment.deleted}</span><br></br>
-                <span>ID: {comment.id}</span><br></br>
-                <span>PARENTDELETED: {comment.parentDeleted}</span><br></br>
-                <span>PARENTID: {comment.parentId}</span><br></br>
-                <span>TIMESTAMP: { new Date(comment.timestamp).toLocaleString() }</span><br></br>
-                <span>VOTESCORE: {comment.voteScore}</span><br></br>
-              </li>
-              ))
-          }
-        </ul>
       </div>
     );
   }

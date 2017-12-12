@@ -1,6 +1,5 @@
 import React, { Component } from 'react' // eslint-disable-line no-unused-vars
 import Post from './Post'
-import { Link } from 'react-router-dom'
 
 class ListPosts extends Component {
     render() {
@@ -10,9 +9,7 @@ class ListPosts extends Component {
             <div className="list-posts">
                 {
                     posts.map((post) => (
-                        <Link to={ post.id }>
-                            <Post key={ post.name } post={ post }/>
-                        </Link>
+                        <Post key={ post.id } post={ post }/>
                     ))
                 }
             </div>
