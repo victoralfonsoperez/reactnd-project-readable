@@ -4,7 +4,8 @@ import uuidv1 from 'uuid/v1' // eslint-disable-line no-unused-vars
 import * as Api from './Api' // eslint-disable-line no-unused-vars
 import CategorySelector from './CategorySelector'
 import ListPosts from './ListPosts'
-import { Route } from 'react-router-dom' // eslint-disable-line no-unused-vars
+import CreatePost from './CreatePost'
+import { Switch, Route, Redirect } from 'react-router-dom' // eslint-disable-line no-unused-vars
 
 class App extends Component {
   state = {
@@ -20,19 +21,6 @@ class App extends Component {
   }
 
 	componentDidMount () {
-    //data required to create a post
-    /* let data = {
-      id: uuidv1(),
-      title: 'React is a great way to improve javascript skills',
-      body: 'This project helps me to get better at react',
-      author: 'victorperez',
-      category: 'udacity',
-      deleted: false,
-      voteScore: 0,
-      commentCount: 0,
-      timestamp: Date.now()
-    } */
-
     //commentData
     /* let commentData = {
       id: uuidv1(),
@@ -71,8 +59,13 @@ class App extends Component {
       this.setState({ postVote })
     }) */
 
-		Api.getCategories().then((categories) => {
-			this.setState({ categories })
+    Api.getCategories().then((categories) => {
+      this.setState({ categories })
+    })
+
+    //sets a default category
+    Api.getCategoryPosts('react').then((category) => {
+      this.setState({ category })
     })
     
     Api.getPosts().then((posts) => {
@@ -108,9 +101,9 @@ class App extends Component {
 			this.setState({ post })
     }) */
 
-    Api.getPostComments('8xf0y6ziyjabvozdd253nd').then((comments) => {
+    /*Api.getPostComments('8xf0y6ziyjabvozdd253nd').then((comments) => {
       this.setState({ comments })
-    })
+    })*/
   }
 
   getAllCategoryPosts = category => {
@@ -124,21 +117,32 @@ class App extends Component {
 
     return (
       <div>
-        <CategorySelector categories={ this.state.categories }
+
+      <CategorySelector categories={ this.state.categories }
           onCategoryChange={this.getAllCategoryPosts}
         />
+
+      <Switch>
+        <Redirect from="/" exact to="/react" />
 
         {
           categories.map((category) => (
             <Route exact path={`/${category.path}`} key={category.name} render={() => (
               <div className="posts-container">
-                <h2>{category.name}</h2>
+                <h2 className="post-container-title">{`${category.name} posts`}</h2>
 
                 <ListPosts key={ category.name } posts={ this.state.category }/>
               </div>
             )} />
           ))
         }
+
+
+      </Switch>
+
+      <CreatePost/>
+
+
 
         {/* <h3>POSTS</h3>
           {

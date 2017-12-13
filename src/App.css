@@ -491,3 +491,6 @@ body {
   display: flex; }
   .list-posts .post {
     flex-basis: 50%; }
+
+.post-container-title {
+  text-transform: uppercase; }
