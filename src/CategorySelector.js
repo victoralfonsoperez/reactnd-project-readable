@@ -8,21 +8,21 @@ class CategorySelector extends Component {
         return(
             <div className="category-selector">
                 <div>
-                    <ul>
+                    <nav>
                         {
                             categories.map((category) => (
-                                <li key={ category.name }>
                                 <NavLink
+                                    exact={true}
+                                    key={ category.name }
                                     activeClassName="active"
-                                    activeStyle={{ color: 'red' }}
-                                    to={ category.path } onClick={() => {
+                                    to={ `/${category.path}` } onClick={() => {
                                     onCategoryChange(category.name)
                                 }}>
                                     { category.name }
-                                </NavLink></li>
+                                </NavLink>
                             ))
                         }
-                    </ul>
+                    </nav>
                 </div>
             </div>
         )

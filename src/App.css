@@ -471,7 +471,8 @@ body {
   text-transform: uppercase; }
 
 .active {
-  color: green; }
+  color: green;
+  text-decoration: underline; }
 
 .category-selector {
   width: 100%;

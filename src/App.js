@@ -12,6 +12,7 @@ class App extends Component {
     categories: [],
     posts: [],
     category: [],
+    categoryPosts: [],
     post: {},
     newpost: {},
     postVote: '',
@@ -59,18 +60,19 @@ class App extends Component {
       this.setState({ postVote })
     }) */
 
+    //set the available categories from the api
     Api.getCategories().then((categories) => {
       this.setState({ categories })
     })
 
     //sets a default category
-    Api.getCategoryPosts('react').then((category) => {
-      this.setState({ category })
+    Api.getCategoryPosts('react').then((categoryPosts) => {
+      this.setState({ categoryPosts })
     })
     
-    Api.getPosts().then((posts) => {
+    /*Api.getPosts().then((posts) => {
 			this.setState({ posts })
-    })
+    })*/
     
     //editPost requires the post id and the edit data, 
     /* Api.editPost('2aabe9c0-ddb8-11e7-ae7f-b92c97863714', editData).then((newpost) => {
@@ -107,19 +109,23 @@ class App extends Component {
   }
 
   getAllCategoryPosts = category => {
-    Api.getCategoryPosts(category).then((category) => {
-			this.setState({ category })
+    Api.getCategoryPosts(category).then((categoryPosts) => {
+			this.setState({ categoryPosts })
     })
   }
 
   createNewPost = data => {debugger
-    Api.createPost(data).then((newpost) => {
-      this.setState({ newpost })
+    Api.createPost(data).then(newpost => {
+      this.setState(state => ({
+        categoryPosts: state.categoryPosts.concat([ newpost ])
+      })
+      )
     })
   }
 
   render() {
     let categories = this.state.categories
+    let posts = this.state.categoryPosts
 
     return (
       <div>
@@ -138,7 +144,7 @@ class App extends Component {
               <div className="posts-container">
                 <h2 className="post-container-title">{`${category.name} posts`}</h2>
 
-                <ListPosts key={ category.name } posts={ this.state.category }/>
+                <ListPosts key={ category.name } posts={ this.state.categoryPosts }/>
               </div>
 
               <CreatePost key={category.name} onCreatePost={this.createNewPost} category={category}/>
