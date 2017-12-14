@@ -112,6 +112,12 @@ class App extends Component {
     })
   }
 
+  createNewPost = data => {debugger
+    Api.createPost(data).then((newpost) => {
+      this.setState({ newpost })
+    })
+  }
+
   render() {
     let categories = this.state.categories
 
@@ -128,20 +134,20 @@ class App extends Component {
         {
           categories.map((category) => (
             <Route exact path={`/${category.path}`} key={category.name} render={() => (
+              <div>
               <div className="posts-container">
                 <h2 className="post-container-title">{`${category.name} posts`}</h2>
 
                 <ListPosts key={ category.name } posts={ this.state.category }/>
               </div>
+
+              <CreatePost key={category.name} onCreatePost={this.createNewPost} category={category}/>
+              </div>
             )} />
           ))
         }
 
-
       </Switch>
-
-      <CreatePost/>
-
 
 
         {/* <h3>POSTS</h3>

@@ -4,7 +4,7 @@ import * as FontAwesome from 'react-icons/lib/fa'
 class Post extends Component {
     render() {
       const { post } = this.props
-  
+
       return (
         <div className="post">
           <h2>{ post.title }</h2>

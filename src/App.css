@@ -415,7 +415,7 @@ body {
       transform: scale(1.1);
       transition-duration: 0.1s; }
   .post:not(:first-child) {
-    margin-top: 1em; }
+    margin-left: 1em; }
 
 .delete-button {
   color: #EB302E; }
@@ -488,9 +488,14 @@ body {
     text-decoration: none; }
 
 .list-posts {
-  display: flex; }
+  display: flex;
+  align-items: flex-start; }
   .list-posts .post {
-    flex-basis: 50%; }
+    flex-basis: 33%; }
 
 .post-container-title {
   text-transform: uppercase; }
+
+.create-post-form {
+  display: flex;
+  flex-direction: column; }

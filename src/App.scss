@@ -42,7 +42,7 @@ body {
   }
 
   &:not(:first-child) {
-    margin-top: 1em;
+    margin-left: 1em;
   }
 }
 
@@ -138,12 +138,18 @@ body {
 
 .list-posts {
   display: flex;
+  align-items: flex-start;
 
   .post {
-    flex-basis: 50%;
+    flex-basis: 33%;
   }
 }
 
 .post-container-title {
   text-transform: uppercase;
+}
+
+.create-post-form {
+  display: flex;
+  flex-direction: column;
 }

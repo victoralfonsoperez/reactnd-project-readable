@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import serializeForm from 'form-serialize' // eslint-disable-line no-unused-vars
+import uuidv1 from 'uuid/v1' // eslint-disable-line no-unused-vars
 
 class CreatePost extends Component {
 	state = {
@@ -11,23 +13,21 @@ class CreatePost extends Component {
 
 	submitData = (e) => {debugger
 		e.preventDefault()
-		const values = e.target
+
+		const values = serializeForm(e.target, { hash: true })
+		//set the timestamp to number
+		values.timestamp = parseInt(values.timestamp, 10)
+		values.commentCount = 0
+		values.voteScore = 0
+		values.deleted = false
+
+		if (this.props.onCreatePost)
+			this.props.onCreatePost(values)
 	}
 
-	//data required to create a post
-    /* let data = {
-      id: uuidv1(),
-      title: 'React is a great way to improve javascript skills',
-      body: 'This project helps me to get better at react',
-      author: 'victorperez',
-      category: 'udacity',
-      deleted: false,
-      voteScore: 0,
-      commentCount: 0,
-      timestamp: Date.now()
-    } */
-
     render() {
+
+    	const { category } = this.props
 
         return (
             <div className="create-posts">
@@ -36,7 +36,7 @@ class CreatePost extends Component {
 				{this.state.visible && <button onClick={() => this.toggleMenu(false)}>Cancel</button>}
 				
 				{this.state.visible && 
-					<form onSubmit={this.submitData} className="create-post--form">
+					<form onSubmit={this.submitData} className="create-post-form">
 						<input
 							type="text"
 							placeholder="Post Title"
@@ -46,10 +46,11 @@ class CreatePost extends Component {
 							placeholder="author"
 							name="author"
 							/>
-						<select>
-							<option>Option category</option>
-						</select>
-						<textarea rows="4" cols="50" placeholder="Please enter the post body"></textarea>
+						<input type="text" readOnly name="category" value={category.name}></input>
+						<input type="number" readOnly name="timestamp" value={Date.now()}></input>
+						<input type="text" readOnly name="id" value={uuidv1()}></input>
+
+						<textarea name="body" rows="4" cols="50" placeholder="Please enter the post body"></textarea>
 
 						<button>Submit</button>
 					</form>
