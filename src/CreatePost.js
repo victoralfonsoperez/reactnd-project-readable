@@ -11,7 +11,7 @@ class CreatePost extends Component {
 		this.setState({ visible: value })
 	}
 
-	submitData = (e) => {debugger
+	submitData = (e) => {
 		e.preventDefault()
 
 		const values = serializeForm(e.target, { hash: true })

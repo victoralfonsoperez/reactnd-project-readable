@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from 'react'
+import './App.css'
 import uuidv1 from 'uuid/v1' // eslint-disable-line no-unused-vars
 import * as Api from './Api' // eslint-disable-line no-unused-vars
 import CategorySelector from './CategorySelector'
@@ -114,12 +114,20 @@ class App extends Component {
     })
   }
 
-  createNewPost = data => {debugger
+  createNewPost = data => {
     Api.createPost(data).then(newpost => {
       this.setState(state => ({
         categoryPosts: state.categoryPosts.concat([ newpost ])
       })
       )
+    })
+  }
+
+  deletePost = id => {
+    Api.deletePost(id).then(id => {
+      this.setState(state => ({
+        categoryPosts: state.categoryPosts.filter((id) => { id })
+      }))
     })
   }
 
@@ -131,30 +139,33 @@ class App extends Component {
       <div>
 
       <CategorySelector categories={ this.state.categories }
-          onCategoryChange={this.getAllCategoryPosts}
-        />
+        onCategoryChange={this.getAllCategoryPosts}
+      />
 
       <Switch>
-        <Redirect from="/" exact to="/react" />
-
+        <Redirect from="/" exact to='/react' />
         {
           categories.map((category) => (
             <Route exact path={`/${category.path}`} key={category.name} render={() => (
               <div>
-              <div className="posts-container">
-                <h2 className="post-container-title">{`${category.name} posts`}</h2>
+                <div className="posts-container">
+                  <h2 className="post-container-title">{`${category.name} posts`}</h2>
+                  <ListPosts
+                    key={category.name}
+                    posts={ posts }
+                    onDeletePost={this.deletePost}
+                  />
+                </div>
 
-                <ListPosts key={ category.name } posts={ this.state.categoryPosts }/>
-              </div>
-
-              <CreatePost key={category.name} onCreatePost={this.createNewPost} category={category}/>
+                <CreatePost
+                  key={category.name}
+                  onCreatePost={this.createNewPost}
+                  category={category}/>
               </div>
             )} />
           ))
         }
-
       </Switch>
-
 
         {/* <h3>POSTS</h3>
           {
@@ -177,4 +188,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App

@@ -1,5 +1,4 @@
-/* global process*/
-import axios from 'axios';
+import axios from 'axios'
 
 const api = 'http://localhost:3001'
 

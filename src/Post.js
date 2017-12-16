@@ -1,9 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import * as FontAwesome from 'react-icons/lib/fa'
 
 class Post extends Component {
+  deletePost = (id) => {
+    this.props.onDeletePost(id)
+  }
+
     render() {
-      const { post } = this.props
+      const { post, onDeletePost } = this.props
 
       return (
         <div className="post">
@@ -25,11 +29,9 @@ class Post extends Component {
   
           <div className="post-actions">
             <button><FontAwesome.FaEdit/></button>
-            <button className="delete-button"><FontAwesome.FaTrashO/></button>
-  
+            <button  onClick={() => this.deletePost(post.id)} className="delete-button"><FontAwesome.FaTrashO/></button>
             <button><FontAwesome.FaThumbsODown/></button>
             <button><FontAwesome.FaThumbsOUp/></button>
-  
             <button className="comment-button"><FontAwesome.FaComment/></button>
           </div>
         </div>
