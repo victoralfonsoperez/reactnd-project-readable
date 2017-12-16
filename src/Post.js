@@ -2,12 +2,30 @@ import React, { Component } from 'react'
 import * as FontAwesome from 'react-icons/lib/fa'
 
 class Post extends Component {
+  state = {
+    isUpVoteButtonDisabled: false,
+    isDownVoteButtonDisabled: false
+  }
+
   deletePost = (id) => {
     this.props.onDeletePost(id)
   }
 
+  votePost = (id, option, e) => {
+    this.props.onVotePost(id, option)
+
+    if (e.currentTarget.className === 'upvote')
+      this.setState({
+        isUpVoteButtonDisabled: true
+      })
+    if (e.currentTarget.className === 'downvote')
+      this.setState({
+        isDownVoteButtonDisabled: true
+      })
+  }
+
     render() {
-      const { post, onDeletePost } = this.props
+      const { post } = this.props
 
       return (
         <div className="post">
@@ -29,9 +47,24 @@ class Post extends Component {
   
           <div className="post-actions">
             <button><FontAwesome.FaEdit/></button>
-            <button  onClick={() => this.deletePost(post.id)} className="delete-button"><FontAwesome.FaTrashO/></button>
-            <button><FontAwesome.FaThumbsODown/></button>
-            <button><FontAwesome.FaThumbsOUp/></button>
+            <button onClick={() => this.deletePost(post.id)} className="delete-button">
+              <FontAwesome.FaTrashO/>
+            </button>
+
+            <button
+              onClick={(e) => this.votePost(post.id, {option: 'downVote'}, e)}
+              className="downvote"
+              disabled={this.state.isDownVoteButtonDisabled}>
+            <FontAwesome.FaThumbsODown/>
+            </button>
+
+            <button
+              onClick={(e) => this.votePost(post.id, {option: 'upVote'}, e)}
+              className="upvote"
+              disabled={this.state.isUpVoteButtonDisabled}>
+            <FontAwesome.FaThumbsOUp/>
+            </button>
+
             <button className="comment-button"><FontAwesome.FaComment/></button>
           </div>
         </div>

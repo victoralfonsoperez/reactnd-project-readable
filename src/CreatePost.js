@@ -23,6 +23,7 @@ class CreatePost extends Component {
 
 		if (this.props.onCreatePost)
 			this.props.onCreatePost(values)
+			this.toggleMenu()
 	}
 
     render() {
@@ -40,22 +41,31 @@ class CreatePost extends Component {
 						<input
 							type="text"
 							placeholder="Post Title"
-							name="title"/>
+							name="title"
+							required
+							/>
 						<input
 							type="text"
 							placeholder="author"
 							name="author"
+							required
 							/>
 						<input type="text" readOnly name="category" value={category.name}></input>
 						<input type="number" readOnly name="timestamp" value={Date.now()}></input>
 						<input type="text" readOnly name="id" value={uuidv1()}></input>
 
-						<textarea name="body" rows="4" cols="50" placeholder="Please enter the post body"></textarea>
+						<textarea
+							name="body"
+							rows="4"
+							cols="50"
+							placeholder="Please enter the post body"
+							required
+							>
+						</textarea>
 
 						<button>Submit</button>
 					</form>
 				}
-
             </div>
         )
     }

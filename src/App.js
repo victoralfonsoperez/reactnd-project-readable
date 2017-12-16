@@ -45,15 +45,6 @@ class App extends Component {
       option: 'upVote'
     } */
 
-    //create post, requires the post data
-    /* Api.createPost(data).then((newpost) => {
-      this.setState({ newpost })
-    }) */
-
-    //delete post, requires the post ID
-    /* Api.deletePost('identificador123').then((deletedPost) => {
-      console.log({ deletedPost })
-    }) */
 
     //votePost requires the post id and an option upVote or downVote
     /* Api.votePost( '2aabe9c0-ddb8-11e7-ae7f-b92c97863714', option ).then((postVote) => {
@@ -109,7 +100,7 @@ class App extends Component {
   }
 
   getAllCategoryPosts = category => {
-    Api.getCategoryPosts(category).then((categoryPosts) => {
+    Api.getCategoryPosts(category).then(categoryPosts => {
 			this.setState({ categoryPosts })
     })
   }
@@ -118,16 +109,25 @@ class App extends Component {
     Api.createPost(data).then(newpost => {
       this.setState(state => ({
         categoryPosts: state.categoryPosts.concat([ newpost ])
-      })
-      )
+      }))
     })
   }
 
   deletePost = id => {
     Api.deletePost(id).then(id => {
       this.setState(state => ({
-        categoryPosts: state.categoryPosts.filter((id) => { id })
+        categoryPosts: state.categoryPosts.filter(s => s.id === id )
       }))
+    })
+  }
+
+  votePost = (id, option) => {
+    Api.votePost(id, option ).then(votedCategoryPosts => {
+      this.setState(state => (
+        state.categoryPosts && state.categoryPosts.map(post => {
+            return votedCategoryPosts.id === post.id ? post.voteScore = votedCategoryPosts.voteScore : post.voteScore
+        })
+      ))
     })
   }
 
@@ -154,6 +154,7 @@ class App extends Component {
                     key={category.name}
                     posts={ posts }
                     onDeletePost={this.deletePost}
+                    onVotePost={this.votePost}
                   />
                 </div>
 
@@ -166,23 +167,6 @@ class App extends Component {
           ))
         }
       </Switch>
-
-        {/* <h3>POSTS</h3>
-          {
-            posts.map((value) => (
-              <Post key={ value.id } post={ value }/>
-            ))
-          }
-
-        <h3>CATEGORY POSTS</h3>
-          {
-            category.map((value) => (
-              <Post key={ value.id } post={ value }/>
-            ))
-          }
-
-        <h3>POST</h3>
-        <Post post={this.state.post}/> */}
       </div>
     );
   }

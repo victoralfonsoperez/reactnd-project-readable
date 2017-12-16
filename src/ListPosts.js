@@ -6,17 +6,22 @@ class ListPosts extends Component {
         this.props.onDeletePost(id)
     }
 
+    votePost = (id, option) => {
+        this.props.onVotePost(id, option)
+    }
+
     render() {
-        const { posts, onDeletePost } = this.props
+        const { posts } = this.props
 
         return (
             <div className="list-posts">
                 {
-                    posts.map((post) => (
+                    posts && posts.map((post) => (
                         <Post
                             key={ post.id }
                             post={ post }
-                            onDeletePost= {this.deletePost}
+                            onDeletePost={this.deletePost}
+                            onVotePost={this.votePost}
                         />
                     ))
                 }
