@@ -31,24 +31,33 @@ class CreatePost extends Component {
 
         return (
             <div className="create-posts">
-            	{!this.state.visible && <button onClick={() => this.toggleMenu(true)}>Create New Post</button>}
+            	{
+					!this.state.visible &&
+					<button onClick={() => this.toggleMenu(true)}>Create New Post</button>
+				}
 
-				{this.state.visible && <button onClick={() => this.toggleMenu(false)}>Cancel</button>}
+				{
+					this.state.visible &&
+					<button onClick={() => this.toggleMenu(false)}>Cancel</button>
+				}
 				
-				{this.state.visible && 
+				{
+					this.state.visible && 
 					<form onSubmit={this.submitData} className="create-post-form">
 						<input
 							type="text"
 							placeholder="Post Title"
 							name="title"
 							required
-							/>
+						/>
+
 						<input
 							type="text"
 							placeholder="author"
 							name="author"
 							required
-							/>
+						/>
+
 						<input className="hidden" type="text" readOnly name="category" value={category.name}></input>
 						<input className="hidden" type="number" readOnly name="timestamp" value={Date.now()}></input>
 						<input className="hidden" type="text" readOnly name="id" value={uuidv1()}></input>

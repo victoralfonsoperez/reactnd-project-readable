@@ -6,6 +6,8 @@ import CategorySelector from './CategorySelector'
 import ListPosts from './ListPosts'
 import CreatePost from './CreatePost'
 import { Switch, Route, Redirect } from 'react-router-dom' // eslint-disable-line no-unused-vars
+import Post from './Post';
+import Comment from './Comment';
 
 class App extends Component {
   state = {
@@ -18,7 +20,8 @@ class App extends Component {
     postVote: '',
     comments: [],
     postComment: {},
-    commentVote: ''
+    commentVote: '',
+    votedPost: {}
   }
 
 	componentDidMount () {
@@ -75,10 +78,6 @@ class App extends Component {
       //console.log({ newpost })
     }) */
 
-    /* Api.getSinglePost("2aabe9c0-ddb8-11e7-ae7f-b92c97863714").then((post) => {
-			this.setState({ post })
-    }) */
-
     /*Api.getPostComments('8xf0y6ziyjabvozdd253nd').then((comments) => {
       this.setState({ comments })
     })*/
@@ -108,7 +107,7 @@ class App extends Component {
   }
 
   votePost = (id, option) => {
-    Api.votePost(id, option ).then(votedCategoryPosts => {
+    Api.votePost(id, option).then(votedCategoryPosts => {
       this.setState(state => (
         state.categoryPosts && state.categoryPosts.map(post => {
             return votedCategoryPosts.id === post.id ? post.voteScore = votedCategoryPosts.voteScore : post.voteScore
@@ -117,9 +116,19 @@ class App extends Component {
     })
   }
 
+  setPost = id => {
+    Api.getSinglePost(id).then(post => {
+			this.setState({ post })
+    }).then(
+      Api.getPostComments(id).then(comments => {
+        this.setState({ comments })
+      }))
+  }
+
   render() {
     let categories = this.state.categories
     let posts = this.state.categoryPosts
+    let post = this.state.post
 
     return (
       <div>
@@ -141,6 +150,7 @@ class App extends Component {
                     posts={ posts }
                     onDeletePost={this.deletePost}
                     onVotePost={this.votePost}
+                    onPostSelected={this.setPost}
                   />
                 </div>
 
@@ -152,7 +162,21 @@ class App extends Component {
             )} />
           ))
         }
+        />
+
+        <Route exact path={`/${post.id}`}>
+          <div className="single-post">
+            <Post
+              post={ post }
+              onVotePost={this.votePost}
+            >
+            </Post>
+            <Comment comment={ this.state.comments }></Comment>
+          </div>
+        </Route>
+
       </Switch>
+
       </div>
     );
   }

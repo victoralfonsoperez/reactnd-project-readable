@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import * as FontAwesome from 'react-icons/lib/fa'
+import { NavLink } from 'react-router-dom'
 
 class Post extends Component {
   state = {
@@ -12,7 +13,7 @@ class Post extends Component {
   }
 
   votePost = (id, option, e) => {
-    this.props.onVotePost(id, option)
+    this.props.onVotePost(id, option, e)
 
     if (e.currentTarget.className === 'upVote')
       this.setState({
@@ -24,6 +25,10 @@ class Post extends Component {
       })
   }
 
+  setPost = id => {
+    this.props.onPostSelected(id)
+  }
+
     render() {
       const { post } = this.props
       const downVote = 'downVote'
@@ -32,13 +37,21 @@ class Post extends Component {
       return (
         <div className="post">
           <h2>{ post.title }</h2>
-          <div className="post-vote">votes: <span className="post-vote-score">{ post.voteScore }</span></div>
+          <div className="post-vote">
+            votes: <span className="post-vote-score">{ post.voteScore }</span>
+          </div>
+
           <div className="post-body">
             <p>
               { post.body }
             </p>
           </div>
-          <div className="post-author"><FontAwesome.FaUser/> <span className="post-author-name">{ post.author }</span></div>
+
+          <div className="post-author">
+            <FontAwesome.FaUser/>
+            <span className="post-author-name">{ post.author }</span>
+          </div>
+
           <div className="post-date"><FontAwesome.FaCalendarO />
             <span className="post-date-value">{ new Date(post.timestamp).toLocaleString() }</span>
           </div>
@@ -69,6 +82,14 @@ class Post extends Component {
 
             <button className="comment-button"><FontAwesome.FaComment/></button>
           </div>
+
+          <NavLink className="read-more"
+            exact={true}
+            to={ `/${post.id}` }
+            onClick={() =>this.setPost(post.id)}>
+              Read More
+          </NavLink>
+
         </div>
       )
     }

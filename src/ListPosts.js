@@ -10,18 +10,23 @@ class ListPosts extends Component {
         this.props.onVotePost(id, option)
     }
 
+    setPost = id => {
+        this.props.onPostSelected(id)
+    }
+
     render() {
         const { posts } = this.props
 
         return (
             <div className="list-posts">
                 {
-                    posts && posts.map((post) => (
+                    posts && posts.map(post => (
                         <Post
                             key={ post.id }
                             post={ post }
                             onDeletePost={this.deletePost}
                             onVotePost={this.votePost}
+                            onPostSelected={this.setPost}
                         />
                     ))
                 }
