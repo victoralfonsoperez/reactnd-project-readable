@@ -39,17 +39,7 @@ class App extends Component {
     let editCommentData = {
       timestamp: Date.now(),
       body: 'This is an edited comment'
-    }
-
-    let option = {
-      option: 'upVote'
-    } */
-
-
-    //votePost requires the post id and an option upVote or downVote
-    /* Api.votePost( '2aabe9c0-ddb8-11e7-ae7f-b92c97863714', option ).then((postVote) => {
-      this.setState({ postVote })
-    }) */
+    }*/
 
     //set the available categories from the api
     Api.getCategories().then((categories) => {
@@ -78,11 +68,6 @@ class App extends Component {
     //delete comment, requires the comment ID
     /* Api.deleteComment('828329a0-dde6-11e7-9599-e373cf1963cb').then((deletedComment) => {
       console.log({ deletedComment })
-    }) */
-
-    //votePost requires the post id and an option upVote or downVote
-    /* Api.voteComment( 'eb118520-dde6-11e7-af31-979f316ae76d', option ).then((commentVote) => {
-      this.setState({ commentVote })
     }) */
 
     //editComment requires the comment id and the edit data, 
@@ -114,9 +99,10 @@ class App extends Component {
   }
 
   deletePost = id => {
-    Api.deletePost(id).then(id => {
+    Api.deletePost(id).then(deletedPost => {
       this.setState(state => ({
-        categoryPosts: state.categoryPosts.filter(s => s.id === id )
+        categoryPosts: state.categoryPosts.filter(s => 
+          s.id !== deletedPost.id)
       }))
     })
   }

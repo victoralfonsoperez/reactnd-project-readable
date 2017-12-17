@@ -14,11 +14,11 @@ class Post extends Component {
   votePost = (id, option, e) => {
     this.props.onVotePost(id, option)
 
-    if (e.currentTarget.className === 'upvote')
+    if (e.currentTarget.className === 'upVote')
       this.setState({
         isUpVoteButtonDisabled: true
       })
-    if (e.currentTarget.className === 'downvote')
+    if (e.currentTarget.className === 'downVote')
       this.setState({
         isDownVoteButtonDisabled: true
       })
@@ -26,6 +26,8 @@ class Post extends Component {
 
     render() {
       const { post } = this.props
+      const downVote = 'downVote'
+      const upVote = 'upVote'
 
       return (
         <div className="post">
@@ -52,15 +54,15 @@ class Post extends Component {
             </button>
 
             <button
-              onClick={(e) => this.votePost(post.id, {option: 'downVote'}, e)}
-              className="downvote"
+              onClick={(e) => this.votePost(post.id, {option: downVote}, e)}
+              className={downVote}
               disabled={this.state.isDownVoteButtonDisabled}>
             <FontAwesome.FaThumbsODown/>
             </button>
 
             <button
-              onClick={(e) => this.votePost(post.id, {option: 'upVote'}, e)}
-              className="upvote"
+              onClick={(e) => this.votePost(post.id, {option: upVote}, e)}
+              className={upVote}
               disabled={this.state.isUpVoteButtonDisabled}>
             <FontAwesome.FaThumbsOUp/>
             </button>

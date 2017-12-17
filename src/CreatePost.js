@@ -27,7 +27,6 @@ class CreatePost extends Component {
 	}
 
     render() {
-
     	const { category } = this.props
 
         return (
@@ -50,9 +49,9 @@ class CreatePost extends Component {
 							name="author"
 							required
 							/>
-						<input type="text" readOnly name="category" value={category.name}></input>
-						<input type="number" readOnly name="timestamp" value={Date.now()}></input>
-						<input type="text" readOnly name="id" value={uuidv1()}></input>
+						<input className="hidden" type="text" readOnly name="category" value={category.name}></input>
+						<input className="hidden" type="number" readOnly name="timestamp" value={Date.now()}></input>
+						<input className="hidden" type="text" readOnly name="id" value={uuidv1()}></input>
 
 						<textarea
 							name="body"
